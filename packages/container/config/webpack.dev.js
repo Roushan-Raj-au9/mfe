@@ -1,5 +1,5 @@
 const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin'); //! here this will be common for dev and prod so move this to common
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const commonConfig = require('./webpack.common');
@@ -16,9 +16,9 @@ const devConfig = {
     },
     
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-        }),
+        // new HtmlWebpackPlugin({
+        //     template: './public/index.html',
+        // }),
 
         new ModuleFederationPlugin({
             name: 'container',
