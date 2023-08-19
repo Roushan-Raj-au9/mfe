@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+// import { Switch, Route, BrowserRouter } from 'react-router-dom'; 
+import { Switch, Route, Router } from 'react-router-dom';  // TODO: here using "Router" instead of "BrowserRouter" bcz in micro-frontend we to set up in such a way that there should be only 1 BrowserRouter(internally work as Browser-History) and Router(internally works as Memory-History)
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 import Landing from './components/Landing';
@@ -9,16 +10,18 @@ const generateClassName = createGenerateClassName({
     productionPrefix: 'ma'
 })
 
-const App = () => {
+const App = ({ history }) => {
     return (
         <div>
             <StylesProvider generateClassName={generateClassName} >
-                <BrowserRouter>
+                {/* <BrowserRouter> */}
+                <Router history={history} >
                 <Switch>
                     <Route exact path="/pricing" component={Pricing} />
                     <Route path="/" component={Landing} />
                 </Switch>
-                </BrowserRouter>
+                </Router>
+                {/* </BrowserRouter> */}
             </StylesProvider>
         </div>
     )
