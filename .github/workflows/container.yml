@@ -20,13 +20,11 @@ jobs:
       - run: npm install
       - run: npm run build
 
+      - name: ACTIONS_ALLOW_UNSECURE_COMMANDS
+        run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB_ENV
+
       - uses: chrislennon/action-aws-cli@v1.1
-        with:
-          args: configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile awscli && configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile awscli
-
-      - name: Set AWS CLI Path
-        run: echo "PATH=$PATH:/home/runner/work/_temp/awscli-bundle/.local/lib/aws/bin" >> $GITHUB_ENV
-
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
-          AWS_DEFAULT_PROFILE: awscli
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
