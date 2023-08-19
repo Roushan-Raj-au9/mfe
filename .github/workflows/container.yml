@@ -22,9 +22,11 @@ jobs:
 
       - uses: chrislennon/action-aws-cli@v1.1
         with:
-          args: configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          args: configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile awscli && configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile awscli
 
       - name: Set AWS CLI Path
-        run: echo "::add-path::/home/runner/work/_temp/awscli-bundle/.local/lib/aws/bin"
+        run: echo "PATH=$PATH:/home/runner/work/_temp/awscli-bundle/.local/lib/aws/bin" >> $GITHUB_ENV
 
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+        env:
+          AWS_DEFAULT_PROFILE: awscli
